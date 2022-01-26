@@ -8,10 +8,10 @@
   <dd><%= @years %></dd>
 
   <dt>Principal</dt>
-  <dd>$<%= @principal %></dd>
+  <dd>$<%= @principal.to_s(:currency) %></dd>
 
   <dt>Payment</dt>
-  <dd>$<%= @monthly_payment %></dd>
+  <dd>$<%= @monthly_payment.to_s(:currency) %></dd>
 
 </dl>
 <a href="/payment/new">Calculate another payment</a>

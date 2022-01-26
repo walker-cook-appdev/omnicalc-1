@@ -39,13 +39,15 @@ class ApplicationController < ActionController::Base
   end
 
   def calculate_payment
-    @apr = params.fetch("apr").to_f
+    @apr = params.fetch("apr").to_f.round(4)
     @years = params.fetch("num_years").to_i
     @principal = params.fetch("principal").to_f
-    @monthly_apr = @apr/12
-    @months = @years *12
+    @monthly_apr = (@apr/12)/100
+    @months = @years*12
 
-    @monthly_payment = @principal * (@monthly_apr*(1+@monthly_apr)**@months) / ((1+@monthly_apr)**@months - 1)
+    #@monthly_payment = @principal * (@monthly_apr*((1+@monthly_apr)**@months)) / (((1+@monthly_apr)**@months) - 1)
+    @monthly_payment = (@principal * @monthly_apr) / (1 - (1 + @monthly_apr)**(-@months))
+    @monthly_payment = @monthly_payment.round(2)
     render({:template => "calculation_templates/payment_results.html.erb"})
   end
 
